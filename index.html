@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <!-- Dark Mode Toggle Icon using Font Awesome -->
+      <div id="dark-mode-toggle">
+        <i class="fa-solid fa-toggle-off"></i>
+      </div>
+
+      <div class="search">
+        <input type="text" placeholder="enter city name" spellcheck="false" />
+        <button><img src="images/search.png" alt="search" /></button>
+      </div>
+      <div class="error">
+        <p>Invalid city name</p>
+      </div>
+      <div class="weather">
+        <!-- Weather info with fade-in transition -->
+        <img src="images/rain.png" alt="" class="weather-icon" />
+        <h1 class="temp">22°C</h1>
+        <h2 class="city">New York</h2>
+        <div class="details">
+          <div class="col">
+            <img src="images/humidity.png" alt="" />
+            <div>
+              <p class="humidity">50%</p>
+              <p>humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img src="images/wind.png" alt="" />
+            <div>
+              <p class="wind">15 km/hr</p>
+              <p>Wind Speed</p>
+            </div>
+          </div>
+        </div>
+        <!-- Personalized weather message container -->
+        <div class="custom-message"></div>
+      </div>
+      <!-- Loading spinner element -->
+      <div class="spinner" id="spinner"></div>
+    </div>
+
+    <script>
+      // Declaring the variables
+      const apiKey = "10f081411fde896257a5ee376362703d";
+      const apiUrl =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+      const searchBox = document.querySelector(".search input");
+      const searchBtn = document.querySelector(".search button");
+      const weatherIcon = document.querySelector(".weather-icon");
+      const darkModeToggle = document.getElementById("dark-mode-toggle");
+      const spinner = document.getElementById("spinner");
+      let debounceTimeout; // For debouncing API calls
+
+      // Function to fetch weather data and provide transition feedback
+      async function checkWeather(city) {
+        // Show spinner while awaiting API response
+        spinner.style.display = "block";
+        // Remove previous fade-in if any
+        document.querySelector(".weather").classList.remove("fade-in");
+
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+        // Hide spinner immediately after response is received
+        spinner.style.display = "none";
+
+        if (response.status == 404) {
+          document.querySelector(".error").style.display = "block";
+          document.querySelector(".weather").style.display = "none";
+        } else {
+          const data = await response.json();
+
+          document.querySelector(".city").innerHTML = data.name;
+          document.querySelector(".temp").innerHTML =
+            Math.round(data.main.temp) + "°C";
+          document.querySelector(".humidity").innerHTML =
+            data.main.humidity + "%";
+          document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+          // Change icon based on weather condition
+          if (data.weather[0].main == "Clouds") {
+            weatherIcon.src = "images/clouds.png";
+          } else if (data.weather[0].main == "Clear") {
+            weatherIcon.src = "images/clear.png";
+          } else if (data.weather[0].main == "Rain") {
+            weatherIcon.src = "images/rain.png";
+          } else if (data.weather[0].main == "Drizzle") {
+            weatherIcon.src = "images/drizzle.png";
+          } else if (data.weather[0].main == "Mist") {
+            weatherIcon.src = "images/mist.png";
+          }
+          // Animate icon on update
+          weatherIcon.classList.add("animate");
+          setTimeout(() => weatherIcon.classList.remove("animate"), 500);
+
+          // Compute and display a custom personal message
+          let temperature = data.main.temp;
+          let customMessage = "";
+          if (temperature > 30) {
+            customMessage =
+              "It's blazing hot out there, stay cool and hydrated!";
+          } else if (temperature < 15) {
+            customMessage = "It's quite chilly, bundle up!";
+          } else {
+            customMessage = "The weather seems just right, enjoy your day!";
+          }
+          if (data.weather[0].main === "Rain")
+            customMessage += " Also, don't forget your umbrella!";
+          document.querySelector(".custom-message").innerText = customMessage;
+
+          // Show weather section with fade-in effect
+          const weatherSection = document.querySelector(".weather");
+          weatherSection.style.display = "block";
+          weatherSection.classList.add("fade-in");
+          document.querySelector(".error").style.display = "none";
+          // Debug: log full API response
+          console.log(data);
+        }
+      }
+
+      // Apply debounce to the search button click to prevent too many API calls
+      searchBtn.addEventListener("click", () => {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+          checkWeather(searchBox.value);
+        }, 500); // 500ms delay
+      });
+
+      // New: Submit weather search when pressing Enter
+      searchBox.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          clearTimeout(debounceTimeout);
+          debounceTimeout = setTimeout(() => {
+            checkWeather(searchBox.value);
+          }, 500);
+        }
+      });
+
+      // Toggle Dark Mode functionality with sliding icon transformation
+      darkModeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        if (document.body.classList.contains("dark-mode")) {
+          // Set icon to indicate dark mode activated & add slide effect
+          darkModeToggle.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
+          darkModeToggle.classList.add("slide-on");
+        } else {
+          // Set icon for dark mode deactivated and remove slide effect
+          darkModeToggle.innerHTML = '<i class="fa-solid fa-toggle-off"></i>';
+          darkModeToggle.classList.remove("slide-on");
+        }
+        // Comment: Toggle icon slides and swaps based on dark mode state.
+      });
+    </script>
+  </body>
+</html>

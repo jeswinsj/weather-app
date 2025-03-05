@@ -1,0 +1,204 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: #222; /* default background */
+}
+
+/* New dark mode styling */
+body.dark-mode {
+  background: #0d1117; /* darker page background */
+}
+
+.card {
+  width: 90%;
+  max-width: 470px;
+  background: linear-gradient(135deg, #00feba, #5b548a);
+  color: #fff;
+  margin: 100px auto 0;
+  border-radius: 20px;
+  padding: 40px 35px;
+  text-align: center;
+  transition: background 0.5s, color 0.5s, box-shadow 0.5s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative; /* Added to position child elements absolutely */
+}
+
+/* Adjust card styling in dark mode */
+body.dark-mode .card {
+  background: linear-gradient(135deg, #343a40, #212529);
+  color: #e0e0e0;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 50px; /* Added margin for spacing */
+}
+
+.search input {
+  border: 0;
+  outline: 0;
+  background: #ebfffc;
+  color: #555;
+  padding: 10px 25px;
+  height: 60px;
+  border-radius: 30px;
+  flex: 1;
+  margin-right: 16px;
+  font-size: 18px;
+}
+
+.search button {
+  border: 0;
+  outline: 0;
+  background: #ebfffc;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.search button img {
+  width: 16px;
+}
+.weather-icon {
+  width: 170px;
+  margin-top: 30px;
+  transition: transform 0.5s;
+}
+
+.weather-icon.animate {
+  transform: scale(1.1);
+}
+
+.weather h1 {
+  font-size: 80px;
+  font-weight: 500;
+}
+.weather h2 {
+  font-size: 45px;
+  font-weight: 400;
+  margin-top: -10px;
+}
+.details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-top: 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3); /* added divider */
+  padding-top: 20px;
+}
+.col {
+  display: flex;
+  align-items: centert;
+  text-align: left;
+}
+.col img {
+  width: 40px;
+  margin-right: 10px;
+}
+.humidity,
+.wind {
+  font-size: 28px;
+  margin-top: -6px;
+}
+.weather {
+  display: none;
+}
+.error {
+  text-align: left;
+  margin-left: 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  /* display: none; */
+}
+
+.custom-message {
+  margin-top: 20px;
+  font-size: 18px;
+  font-style: italic;
+  color: #fff;
+}
+
+/* Adjust custom-message in dark mode */
+body.dark-mode .custom-message {
+  color: #e0e0e0;
+}
+
+/* Dark mode toggle icon styling */
+#dark-mode-toggle {
+  /* Updated styling for a modern, prominent icon */
+  margin: 0;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: #fff;
+  padding: 10px; /* Increased padding */
+  font-size: 28px; /* Increased font-size for better visibility */
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Optional subtle shadow */
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+/* Hover and active effects */
+#dark-mode-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* When in dark-mode, change toggle icon background color */
+body.dark-mode #dark-mode-toggle {
+  background: #2a2f38;
+  color: #f1c40f; /* hint of sun/moon color */
+}
+
+/* Slide effect for dark mode toggle icon */
+#dark-mode-toggle.slide-on {
+  transform: translateX(10px);
+  transition: transform 0.5s;
+}
+
+/* Spinner styling for loading feedback */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: none;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fade-in transition for weather section */
+.weather.fade-in {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
