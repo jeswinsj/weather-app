@@ -118,7 +118,7 @@ body.dark-mode .card {
   margin-left: 10px;
   font-size: 14px;
   margin-top: 10px;
-  /* display: none; */
+  display: none;
 }
 
 .custom-message {
