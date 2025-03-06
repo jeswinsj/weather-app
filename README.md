@@ -25,7 +25,7 @@ As part of my **15 Day JavaScript Recap Challenge**, I built this app to sharpen
 
 1. **Clone the Repository:**
    ```bash
-   git clone <your-repository-url>
+   git clone https://github.com/jeswinsj/weather-app.git
    ```
 2. **Navigate to the Project Directory:**
    ```bash
@@ -51,13 +51,13 @@ To set up this project on GitHub, use the following commands:
 git init
 git add .
 git commit -m "Initial commit - Weather App project"
-git remote add origin <your-repository-url>
+git remote add origin https://github.com/jeswinsj/weather-app.git
 git push -u origin master
 ```
 
 ## Acknowledgments 🙏
 
-A big shoutout to the tutorial video that inspired and guided the development of this app.
+A big shoutout to the [greatstackdev](https://www.youtube.com/@GreatStackDev) that inspired and guided the development of this app.
 
 ## License 📜
 
